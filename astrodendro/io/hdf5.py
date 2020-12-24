@@ -59,9 +59,9 @@ def dendro_import_hdf5(filename):
 
     log.debug('Loading HDF5 file from disk...')
     with h5py.File(filename, 'r') as h5f:
-        newick = h5f['newick'].value
-        data = h5f['data'].value
-        index_map = h5f['index_map'].value
+        newick = h5f['newick'][()]
+        data = h5f['data'][()]
+        index_map = h5f['index_map'][()]
 
         params = {}
         if 'min_value' in h5f.attrs:
@@ -70,7 +70,7 @@ def dendro_import_hdf5(filename):
             params['min_npix'] = h5f.attrs['min_npix']
 
         try:
-            wcs = WCS(h5f['wcs_header'].value)
+            wcs = WCS(h5f['wcs_header'][()])
         except KeyError:
             wcs = None
 
